@@ -13,8 +13,8 @@ This repo contains a set of scrips, both for bash and Windows cmd, to make the s
 1. Install Docker (On Ubuntu: `sudo apt install docker.io`) 
 2. Clone this repo: `git clone https://github.com/DRKV333/docker-ros-kinetic-vrep-devel`
 3. Change `SRCPATH` in [Linux/CONFIG.sh](Linux/CONFIG.sh) to the folder you want to store your source code in.
-4. Run [Linux/Create.sh](Linux/Create.sh)
-5. You can start the container with [Linux/Start.sh](Linux/Start.sh)
+4. Run [Linux/create.sh](Linux/create.sh)
+5. You can start the container with [Linux/start.sh](Linux/start.sh)
 
 Depending on how your Docker is set up, you might need to run these scripts with `sudo`.
 
@@ -26,6 +26,6 @@ Depending on how your Docker is set up, you might need to run these scripts with
 4. Clone this repo: `git clone https://github.com/DRKV333/docker-ros-kinetic-vrep-devel` (or download as zip)
 5. Change `SRCPATH` in [Windows/CONFIG.bat](Windows/CONFIG.bat) to the folder you want to store your source code in.
 6. Make sure Docker Desktop is running
-7. Run [Windows/Create.bat](Windows/Create.bat)
+7. Run [Windows/create.bat](Windows/create.bat)
 8. Start Xming using Xlaunch (default configuration should be fine)
-9. You can start the container with [Windows/Start.bat](Windows/Start.bat)
+9. You can start the container with [Windows/start.bat](Windows/start.bat)
