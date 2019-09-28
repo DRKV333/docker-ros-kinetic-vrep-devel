@@ -49,7 +49,7 @@ WORKDIR /home/${user}
 
 # Install V-REP
 
-RUN wget http://www.coppeliarobotics.com/files/${vrepfile}.tar.xz \
+RUN wget -nv http://www.coppeliarobotics.com/files/${vrepfile}.tar.xz \
  && tar -xf ${vrepfile}.tar.xz \
  && rm ${vrepfile}.tar.xz
 ENV VREP_ROOT=/home/${user}/${vrepfile}
