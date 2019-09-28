@@ -1,4 +1,8 @@
-FROM ubuntu:xenial
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Base stage
+# Installs everything and sets up the user
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+FROM ubuntu:xenial AS base
 
 ARG vrepfile=V-REP_PRO_EDU_V3_6_2_Ubuntu16_04
 ARG user=docker
@@ -62,6 +66,29 @@ RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
  && echo "source ${workspace}/devel/setup.bash" >> ~/.bashrc \
  && echo "export PATH=/${VREP_ROOT}/:\$PATH" >> ~/.bashrc \
  && echo "alias ws_setup='source ${workspace}/devel/setup.bash'" >> ~/.bashrc
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Interface Buid stage
+# Rebuilds the V-VREP ROS Interface, because the included one is broken...
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+FROM base AS interface-buid
+
+RUN sudo apt-get update && sudo apt-get install --no-install-recommends -y \
+ ros-kinetic-tf2-sensor-msgs xsltproc \
+ && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
+
+RUN cd ${CATKIN_TOPLEVEL_WS}/src \
+ && git clone --recursive https://github.com/CoppeliaRobotics/v_repExtRosInterface.git vrep_ros_interface \
+ && . /opt/ros/kinetic/setup.sh && catkin build --workspace ${CATKIN_TOPLEVEL_WS}
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Final stage
+# Install the ROS Interface and setup entrypoint
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+FROM base
+
+COPY --from=interface-buid ${CATKIN_TOPLEVEL_WS}/devel/lib/libv_repExtRosInterface.so ${VREP_ROOT}
 
 # Final setup
 
